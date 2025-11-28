@@ -63,52 +63,126 @@ React Router DOM
 Axios
 LocalStorage for auth + guest cart
 Custom CSS (single index.css) for a clean, dark theme UI
-Project Structure
-pasovit-clothing-ecommerce/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   └── db.js
-│   │   ├── controllers/
-│   │   │   ├── authController.js
-│   │   │   ├── productController.js
-│   │   │   ├── cartController.js
-│   │   │   └── orderController.js
-│   │   ├── middleware/
-│   │   │   └── authMiddleware.js
-│   │   ├── models/
-│   │   │   ├── User.js
-│   │   │   ├── Product.js
-│   │   │   ├── Cart.js
-│   │   │   └── Order.js
-│   │   ├── routes/
-│   │   │   ├── authRoutes.js
-│   │   │   ├── productRoutes.js
-│   │   │   ├── cartRoutes.js
-│   │   │   └── orderRoutes.js
-│   │   ├── seed/
-│   │   │   └── seedProducts.js
-│   │   ├── utils/
-│   │   │   └── sendEmail.js
-│   │   └── server.js
-│   └── package.json
-│
-└── client/
-    ├── src/
-    │   ├── api/
-    │   │   └── axiosClient.js
-    │   ├── components/
-    │   │   ├── Navbar.jsx
-    │   │   └── ProductCard.jsx
-    │   ├── pages/
-    │   │   ├── HomePage.jsx
-    │   │   ├── ProductList.jsx
-    │   │   ├── ProductDetail.jsx
-    │   │   ├── CartPage.jsx
-    │   │   ├── CheckoutPage.jsx
-    │   │   ├── LoginPage.jsx
-    │   │   └── RegisterPage.jsx
-    │   ├── App.jsx
-    │   ├── main.jsx
-    │   └── index.css
-    └── package.json
+
+
+
+
+
+Getting Started
+1. Clone the repository
+git clone https://github.com/<your-username>/pasovit-clothing-ecommerce.git
+cd pasovit-clothing-ecommerce
+
+2. Install dependencies
+Backend
+cd backend
+npm install
+
+Frontend
+cd ../client
+npm install
+
+3. Seed demo products
+
+In backend/:
+
+npm run seed
+
+
+This will:
+
+connect to MongoDB
+
+clear existing products
+
+insert ~20 demo clothing products
+
+4. Run the app in development
+Backend (port 5000)
+cd backend
+npm run dev
+
+Frontend (port 5173)
+cd client
+npm run dev
+
+
+Open the app at:
+
+http://localhost:5173
+
+ API Overview (Backend)
+
+Base URL: http://localhost:5000/api
+
+Auth
+
+POST /auth/register
+
+body: { name, email, password }
+
+POST /auth/login
+
+body: { email, password }
+
+Products
+
+GET /products
+
+query params:
+
+page, limit
+
+search
+
+category (Men/Women/Kids)
+
+size (S/M/L/XL)
+
+minPrice, maxPrice
+
+GET /products/:id
+
+Cart (auth required)
+
+GET /cart
+
+POST /cart
+
+{ productId, size, quantity }
+
+PUT /cart/:itemId
+
+{ quantity }
+
+DELETE /cart/:itemId
+
+Orders (auth required)
+
+POST /orders/checkout
+
+Uses current user’s cart, creates order, sends email
+
+GET /orders/my
+
+Returns logged-in user’s orders
+
+ Test Flow
+
+Register a new user from Register page
+
+Login with the same credentials
+
+Browse products, apply search + filters + pagination
+
+Add items to cart (different sizes and quantities)
+
+Go to Cart → update quantities / remove items
+
+Go to Checkout, confirm order
+
+Check:
+
+Order created in MongoDB
+
+Confirmation email received at configured email address
